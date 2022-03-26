@@ -20,7 +20,7 @@ class Character implements Fighter {
     this._race = new Elf(name, 8);
     this._archetype = new Mage(name);
     this._maxLifePoints = this._race.maxLifePoints / 2;
-    this._lifePoints = this._race.maxLifePoints;
+    this._lifePoints = this._maxLifePoints;
     this._strength = getRandomInt(1, 10);
     this._defense = getRandomInt(1, 10);
     this._dexterity = this._race.dexterity;
@@ -50,7 +50,7 @@ class Character implements Fighter {
     const damage = attackPoints - this.defense;
 
     if (damage > 0) this._lifePoints -= damage;
-    if (this._lifePoints <= 0) return -1;
+    if (this._lifePoints - damage <= 0) return -1;
 
     return this._lifePoints;
   }
@@ -72,9 +72,10 @@ class Character implements Fighter {
 
     this._lifePoints = this._maxLifePoints;
   }
-}
 
-const test = new Character('name');
-console.log(test);
+  special(enemy: Fighter) {
+    enemy.receiveDamage(this._strength * 2);
+  }
+}
 
 export default Character;
