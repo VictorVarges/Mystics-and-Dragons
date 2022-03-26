@@ -7,7 +7,6 @@ import Elf from './Races/Elf';
 import getRandomInt from './utils';
 
 class Character implements Fighter {
-  private _name: string;
   private _race: Race;
   private _archetype: Archetype;
   private _maxLifePoints: number;
@@ -18,9 +17,8 @@ class Character implements Fighter {
   private _energy: Energy;
 
   constructor(name: string) {
-    this._name = name;
-    this._race = new Elf('Trol', 8);
-    this._archetype = new Mage('Esmeralda');
+    this._race = new Elf(name, 8);
+    this._archetype = new Mage(name);
     this._maxLifePoints = this._race.maxLifePoints / 2;
     this._lifePoints = this._race.maxLifePoints;
     this._strength = getRandomInt(1, 10);
@@ -32,53 +30,34 @@ class Character implements Fighter {
     };
   }
 
-  get name(): string {
-    return this._name;
-  }
+  get race(): Race { return this._race; }
 
-  get race(): Race {
-    return this._race;
-  }
+  get archetype(): Archetype { return this._archetype; }
 
-  get archetype(): Archetype {
-    return this._archetype;
-  }
+  get lifePoints(): number { return this._lifePoints; }
 
-  get lifePoints(): number {
-    return this._lifePoints;
-  }
+  get strength(): number { return this._strength; }
 
-  get strength(): number {
-    return this._strength;
-  }
+  get defense(): number { return this._defense; }
 
-  get defense(): number {
-    return this._defense;
-  }
+  get dexterity(): number { return this._dexterity; }
 
-  get dexterity(): number {
-    return this._dexterity;
-  }
-
-  get energy(): Energy {
-    return { ...this._energy };
-  }
+  get energy(): Energy { return { ...this._energy }; }
 
   receiveDamage(attackPoints: number) {
     const damage = attackPoints - this.defense;
-    const life = this._lifePoints;
 
     if (damage > 0) this._lifePoints -= damage;
-    if (life <= 0) return -1;
+    if (this._lifePoints <= 0) return -1;
 
-    return life;
+    return this._lifePoints;
   }
 
   attack(enemy: Fighter) {
     return enemy.receiveDamage(this._strength);
   }
 
-  levelUp() {
+  levelUp(): void {
     this._maxLifePoints += getRandomInt(1, 10);
     this._strength += getRandomInt(1, 10);
     this._defense += getRandomInt(1, 10);
