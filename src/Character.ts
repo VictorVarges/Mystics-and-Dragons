@@ -4,6 +4,7 @@ import Energy from './Energy';
 import Fighter from './Fighter';
 import Race from './Races';
 import Elf from './Races/Elf';
+import getRandomInt from './utils';
 
 class Character implements Fighter {
   private _name: string;
@@ -18,16 +19,16 @@ class Character implements Fighter {
 
   constructor(name: string) {
     this._name = name;
-    this._race = new Elf('Trol', 10);
+    this._race = new Elf('Trol', 8);
     this._archetype = new Mage('Esmeralda');
     this._maxLifePoints = this._race.maxLifePoints / 2;
     this._lifePoints = this._race.maxLifePoints;
-    this._strength = Math.floor(Math.random() * 10);
-    this._defense = Math.floor(Math.random() * 10);
+    this._strength = getRandomInt(1, 10);
+    this._defense = getRandomInt(1, 10);
     this._dexterity = this._race.dexterity;
     this._energy = {
       type_: this._archetype.energyType,
-      amount: Math.floor(Math.random() * 10),
+      amount: getRandomInt(1, 10),
     };
   }
 
@@ -60,11 +61,11 @@ class Character implements Fighter {
   }
 
   get energy(): Energy {
-    return this._energy;
+    return { ...this._energy };
   }
 
   receiveDamage(attackPoints: number) {
-    const damage = attackPoints - this._defense;
+    const damage = attackPoints - this.defense;
     const life = this._lifePoints;
 
     if (damage > 0) this._lifePoints -= damage;
@@ -74,14 +75,14 @@ class Character implements Fighter {
   }
 
   attack(enemy: Fighter) {
-    enemy.receiveDamage(this._defense);
+    return enemy.receiveDamage(this._strength);
   }
 
   levelUp() {
-    this._maxLifePoints += Math.floor(Math.random() * 10);
-    this._strength += Math.floor(Math.random() * 10);
-    this._defense += Math.floor(Math.random() * 10);
-    this._dexterity += Math.floor(Math.random() * 10);
+    this._maxLifePoints += getRandomInt(1, 10);
+    this._strength += getRandomInt(1, 10);
+    this._defense += getRandomInt(1, 10);
+    this._dexterity += getRandomInt(1, 10);
     this._energy.amount = 10;
 
     if (this._maxLifePoints > this._race.maxLifePoints) {
