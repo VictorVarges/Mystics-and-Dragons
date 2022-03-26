@@ -34,6 +34,8 @@ class Character implements Fighter {
 
   get archetype(): Archetype { return this._archetype; }
 
+  get maxLifePoints(): number { return this._race.maxLifePoints; }
+
   get lifePoints(): number { return this._lifePoints; }
 
   get strength(): number { return this._strength; }
@@ -71,5 +73,8 @@ class Character implements Fighter {
     this._lifePoints = this._maxLifePoints;
   }
 }
+
+const test = new Character('name');
+console.log(test);
 
 export default Character;

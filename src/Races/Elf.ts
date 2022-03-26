@@ -11,7 +11,7 @@ class Elf extends Race {
     Elf.elfInstaces += 1;
   }
 
-  get maxLifePoints() {
+  get maxLifePoints(): number {
     return this._maxLifePoints;
   }
 
