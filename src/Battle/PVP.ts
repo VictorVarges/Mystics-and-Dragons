@@ -14,6 +14,7 @@ class PVP extends Battle {
   fight(): number {
     this._player1.attack(this._player2);
     this._player2.attack(this._player1);
+    
     return this._player1.lifePoints <= 0 ? -1 : 1;
   } 
 }
